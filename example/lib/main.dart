@@ -108,7 +108,7 @@ class _FirstPageState extends State<FirstPage> {
     "Zest"
   ];
 
-  SimpleAutoCompleteTextField textField;
+  SimpleAutoCompleteTextField? textField;
   bool showWhichErrorText = false;
 
   @override
@@ -119,9 +119,9 @@ class _FirstPageState extends State<FirstPage> {
           trailing: new IconButton(
               icon: new Icon(Icons.add),
               onPressed: () {
-                textField.triggerSubmitted();
+                textField!.triggerSubmitted();
                 showWhichErrorText = !showWhichErrorText;
-                textField.updateDecoration(
+                textField!.updateDecoration(
                     decoration: new InputDecoration(
                         errorText: showWhichErrorText ? "Beans" : "Tomatoes"));
               })),
@@ -132,7 +132,6 @@ class _FirstPageState extends State<FirstPage> {
     }));
 
     return new Scaffold(
-        resizeToAvoidBottomPadding: false,
         appBar: new AppBar(
             title: new Text('AutoComplete TextField Demo Simple'),
             actions: [
@@ -151,7 +150,7 @@ class _FirstPageState extends State<FirstPage> {
                                   onPressed: () {
                                     if (text != "") {
                                       suggestions.add(text);
-                                      textField.updateSuggestions(suggestions);
+                                      textField!.updateSuggestions(suggestions);
                                     }
                                     Navigator.pop(context);
                                   },
@@ -220,16 +219,16 @@ class _SecondPageState extends State<SecondPage> {
   GlobalKey key =
       new GlobalKey<AutoCompleteTextFieldState<ArbitrarySuggestionType>>();
 
-  AutoCompleteTextField<ArbitrarySuggestionType> textField;
+  AutoCompleteTextField<ArbitrarySuggestionType>? textField;
 
-  ArbitrarySuggestionType selected;
+  ArbitrarySuggestionType? selected;
 
   _SecondPageState() {
     textField = new AutoCompleteTextField<ArbitrarySuggestionType>(
       decoration: new InputDecoration(
           hintText: "Search Resturant:", suffixIcon: new Icon(Icons.search)),
       itemSubmitted: (item) => setState(() => selected = item),
-      key: key,
+      key: key as GlobalKey<AutoCompleteTextFieldState<ArbitrarySuggestionType>>,
       suggestions: suggestions,
       itemBuilder: (context, suggestion) => new Padding(
           child: new ListTile(
@@ -245,7 +244,6 @@ class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         title: new Text('AutoComplete TextField Demo Complex'),
       ),
@@ -259,11 +257,11 @@ class _SecondPageState extends State<SecondPage> {
                 child: selected != null
                     ? new Column(children: [
                         new ListTile(
-                            title: new Text(selected.name),
-                            trailing: new Text("Rating: ${selected.stars}/5")),
+                            title: new Text(selected!.name),
+                            trailing: new Text("Rating: ${selected!.stars}/5")),
                         new Container(
                             child: new Image(
-                                image: new NetworkImage(selected.imgURL)),
+                                image: new NetworkImage(selected!.imgURL)),
                             width: 400.0,
                             height: 300.0)
                       ])
